@@ -6,8 +6,26 @@
 
 uint8_t  ReceiveBuffer[25];
 uint16_t SBUSData[10] = {};
+uint8_t current_state = 0;
+
 
 void SBUS_decode();
+void preArm_State();
+void preFlight_State();
+void Flight_State();
+void Disarm();
+void Failsafe();
+
+
+enum class statemanager : uint8_t {
+
+	preArm = 0,
+	preFlight = 1,
+	Flight = 2,
+	Disarm = 3,
+	Failsafe = 4,
+};
+
 
 void init(){
 
@@ -17,6 +35,29 @@ void init(){
 }
 
 void loop(){
+
+	switch(current_state){
+		case preArm :
+			preArm_State();
+		break;
+
+		case preFlight :
+			preFlight_State();
+		break;
+
+		case Flight :
+			Flight_State();
+		break;
+
+		case Disarm :
+			Disarm();
+		break;
+
+		case Failsafe :
+			Failsafe();
+		break;
+	}
+		
     printf("ch1: %d ch2: %d ch3: %d ch4: %d\n", SBUSData[0], SBUSData[1], SBUSData[2], SBUSData[3]);
     printf("ch5: %d ch6: %d ch7: %d ch8: %d ch9: %d ch10: %d\n", SBUSData[4], SBUSData[5], SBUSData[6], SBUSData[7], SBUSData[8], SBUSData[9]);
 	HAL_Delay(100);
@@ -48,4 +89,44 @@ void SBUS_decode(){
     SBUSData[7]  = (ReceiveBuffer[10] >> 5  | ReceiveBuffer[11] << 3)  & 0x07FF;
     SBUSData[8]  = (ReceiveBuffer[12]       | ReceiveBuffer[13] << 8)  & 0x07FF;
     SBUSData[9]  = (ReceiveBuffer[13] >> 3  | ReceiveBuffer[14] << 5)  & 0x07FF;
+}
+
+void preArm_State(){
+
+	printf("pre arming state; ch1: %d ch2: %d ch3: %d ch4: %d\r\n", SBUSData[0], SBUSData[1], SBUSData[2], SBUSData[3]);
+	printf("pre arming state; ch5: %d ch6: %d ch7: %d ch8: %d ch9: %d ch10: %d\r\n", SBUSData[4], SBUSData[5], SBUSData[6], SBUSData[7], SBUSData[8], SBUSData[9]);
+
+	if((SBUSData[5] > 1000) && (SBUSData[6] > 1000)){
+		current_state = (uint8_t)statemanager::preFlight;
+	}
+
+	HAL_Delay(100);
+}
+
+void preFlight_State(){
+
+	printf("pre flight state; ch1: %d ch2: %d ch3: %d ch4: %d\r\n", SBUSData[0], SBUSData[1], SBUSData[2], SBUSData[3]);
+	printf("pre flight state; ch5: %d ch6: %d ch7: %d ch8: %d ch9: %d ch10: %d\r\n", SBUSData[4], SBUSData[5], SBUSData[6], SBUSData[7], SBUSData[8], SBUSData[9]);
+
+	if((SBUSData[5] < 1000) && (SBUSData[6] > 1000)){
+		current_state = (uint8_t)statemanager::Flight;
+	}
+
+}
+
+void Disarm(){
+
+	printf("disarm\r\n");
+
+	if(SBUSData[6] > 1000){
+
+		current_state = (uint8_t)statemanager::preArm;
+	}
+
+	HAL_Delay(100);
+}
+
+void Failsafe(){
+	printf("fail safe!!");
+
 }
