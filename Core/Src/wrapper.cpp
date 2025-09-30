@@ -1,25 +1,82 @@
 #include "wrapper.hpp"
+#include "FlightManger.hpp"
 #include "gpio.h"
+#include "spi.h"
 #include "usart.h"
 #include <stdio.h>
 #include "string"
 
 uint8_t  ReceiveBuffer[25];
 uint16_t SBUSData[10] = {};
-
+// FlightManger flightManger;
+// enum class DrownStatus:uint8_t{
+//     Initial=0,
+//     ArmStandby,
+//     FlightStandby,
+//     Flying,
+//     Disarmed,
+// };
+// drownStatus = DrownStatus::Initial;
 void SBUS_decode();
-
+void Read();
 void init(){
-
-    HAL_UART_Receive_DMA(&huart1, ReceiveBuffer, 25);
+    // HAL_UART_Receive_DMA(&huart1, ReceiveBuffer, 25);
 	printf("connection\n");
-    
 }
 
 void loop(){
-    printf("ch1: %d ch2: %d ch3: %d ch4: %d\n", SBUSData[0], SBUSData[1], SBUSData[2], SBUSData[3]);
-    printf("ch5: %d ch6: %d ch7: %d ch8: %d ch9: %d ch10: %d\n", SBUSData[4], SBUSData[5], SBUSData[6], SBUSData[7], SBUSData[8], SBUSData[9]);
-	HAL_Delay(100);
+    // printf("ch1: %d ch2: %d ch3: %d ch4: %d\n", SBUSData[0], SBUSData[1], SBUSData[2], SBUSData[3]);
+    // printf("ch5: %d ch6: %d ch7: %d ch8: %d ch9: %d ch10: %d\n", SBUSData[4], SBUSData[5], SBUSData[6], SBUSData[7], SBUSData[8], SBUSData[9]);
+//     switch (drownStatus)
+//     {
+//     case DrownStatus::Initial:
+//         /* code */
+//         printf("status1\n");
+//         drownStatus = DrownStatus::ArmStandby;
+//         break;
+//     case DrownStatus::ArmStandby:
+//         /* code */
+//         printf("status2\n");
+//         drownStatus = DrownStatus::FlightStandby;
+//         break;
+//     case DrownStatus::FlightStandby:
+//         /* code */
+//         printf("status3\n");
+//         drownStatus = DrownStatus::Flying;
+//         break;
+//     case DrownStatus::Flying:
+//         /* code */
+//         printf("status4\n");
+//         drownStatus = DrownStatus::Disarmed;
+//         break;
+//     case DrownStatus::Disarmed:
+//         /* code */
+//         printf("status5\n");
+// drownStatus = DrownStatus::ArmStandby;
+//         break;
+//     default:
+//         break;
+//     }
+uint8_t tx_buffer[2] = {};
+uint8_t rx_buffer[2] = {};
+
+tx_buffer[0] = 0x75 | 0x80;//読み取りたいレジスタのアドレス
+tx_buffer[1] = 0x00;//からのデータ
+
+//CSピンをLOWにする(通信開始)
+HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8, GPIO_PIN_RESET);
+
+//アドレスの送信とデータの受信
+HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, 2, 1000);
+
+//CSピンをHIGHにする(通信終了)
+HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8, GPIO_PIN_SET);
+
+//受信したデータを取得(2番目の要素に入る)
+uint8_t ReadValue = rx_buffer[1];
+    printf("%d", ReadValue);
+    printf("loop\n");
+	HAL_Delay(1000);
 }
 
 //データを受信したら呼び出される
