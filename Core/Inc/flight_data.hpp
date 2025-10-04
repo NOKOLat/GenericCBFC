@@ -1,0 +1,66 @@
+/*
+ * flight_data.hpp
+ *
+ *  Created on: Sep 29, 2025
+ *      Author: yuukou
+ */
+
+#ifndef INC_FLIGHT_DATA_HPP_
+#define INC_FLIGHT_DATA_HPP_
+
+#include "main.h"
+#include "cstdint"
+#include "usart.h"
+#include "stdio.h"
+
+struct flightdata {
+
+
+	enum class state : uint8_t{
+
+		pre_arm_state,
+		pre_flight_state,
+		flight_state,
+		disarm_state,
+		failsafe_state,
+	};
+
+
+	struct FlightData {
+
+		  uint8_t counter_debug = 0;
+		  uint8_t current_state;
+		  uint16_t sbus_channel_data[10];
+		  uint8_t receive_buffer[25] = {};
+		  float accel[3];
+		  float gyro[3];
+		  float mag[3];
+		  float angle[3];
+		  float rate[3];
+		  float pid_result[3];
+		  uint16_t motor_pwm[4];
+		  uint16_t servo_pwm[2];
+		};
+
+
+
+	enum class SbusChannel : uint8_t {
+
+		  throttle = 3 - 1,
+		  pitch = 2 - 1,
+		  roll = 1 - 1,
+		  yaw = 4 - 1,
+		  arm = 6 - 1,
+		  fly = 5 - 1,
+		  drop = 7 - 1,
+		  autodrop = 8 - 1,
+	};
+
+};
+
+extern flightdata::FlightData flightdata;
+
+
+void sbus_decode();
+
+#endif /* INC_FLIGHT_DATA_HPP_ */
