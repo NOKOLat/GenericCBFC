@@ -15,9 +15,9 @@ void preFlightState(flightdata::FlightData* data){
 		printf("pre flight state \r\n");
 		HAL_Delay(1000);
 
-		while(data->current_state != (uint8_t)flightdata::state::flight_state){
+		while(data->current_state != flightdata::state::FLIGHT_STATE){
 
-			data->current_state = (uint8_t)flightdata::state::flight_state;
+			data->current_state = flightdata::state::FLIGHT_STATE;
 			HAL_Delay(50);
 		}
 
