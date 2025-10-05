@@ -16,20 +16,19 @@
 struct flightdata {
 
 
-	enum class state : uint8_t{
+	enum class State : uint8_t{
 
-		pre_arm_state,
-		pre_flight_state,
-		flight_state,
-		disarm_state,
-		failsafe_state,
+		PRE_ARM_STATE,
+		PRE_FLIGHT_STATE,
+		FLIGHT_STATE,
+		DISARM_STATE,
+		FAILSAFE_STATE,
 	};
 
 
 	struct FlightData {
 
-		  uint8_t counter_debug = 0;
-		  uint8_t current_state;
+		  State current_state;
 		  uint16_t sbus_channel_data[10];
 		  uint8_t receive_buffer[25] = {};
 		  float accel[3];
