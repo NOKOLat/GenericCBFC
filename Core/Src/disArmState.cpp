@@ -15,9 +15,9 @@ void disArmState(flightdata::FlightData* data){
 		printf("disarm state \r\n");
 		HAL_Delay(1000);
 
-		while(data->current_state != (uint8_t)flightdata::state::pre_arm_state){
+		while(data->current_state != flightdata::state::PRE_ARM_STATE){
 
-				data->current_state = (uint8_t)flightdata::state::pre_arm_state;
+				data->current_state = flightdata::state::PRE_ARM_STATE;
 				HAL_Delay(50);
 		}
 
