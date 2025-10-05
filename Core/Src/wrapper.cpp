@@ -18,11 +18,7 @@
 
 
 
-//flightdata::FlightData* flightdata;
-
 void init(){
-	//割り込み開始
-//	HAL_UART_Receive_DMA(&huart1, flightdata.receive_buffer, 25);
 
 	printf("hello, world \r\n");
 	HAL_Delay(100);
@@ -30,27 +26,25 @@ void init(){
 
 void loop(){
 
-//	printf("sbus_channel 6 %d : sbus_channel 7 %d " ,flightdata.sbus_channel_data[5], flightdata.sbus_channel_data[6]);
-
 	switch(flightdata.current_state){
 
-		case (uint8_t)flightdata::state::pre_arm_state :
+		case flightdata::state::PRE_ARM_STATE :
 				preArmState(&flightdata);
 		break;
 
-		case (uint8_t)flightdata::state::pre_flight_state :
+		case flightdata::state::PRE_FLIGHT_STATE :
 				preFlightState(&flightdata);
 		break;
 
-		case (uint8_t)flightdata::state::flight_state :
+		case flightdata::state::FLIGHT_STATE :
 				flightState(&flightdata);
 		break;
 
-		case (uint8_t)flightdata::state::disarm_state :
+		case flightdata::state::DISARM_STATE :
 				disArmState(&flightdata);
 		break;
 
-		case (uint8_t)flightdata::state::failsafe_state:
+		case flightdata::state::FAILSAFE_STATE:
 				failsafeState(&flightdata);
 		break;
 
