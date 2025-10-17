@@ -29,8 +29,12 @@ struct flightdata {
 	struct FlightData {
 
 		  State current_state;
+
 		  uint16_t sbus_channel_data[10];
 		  uint8_t receive_buffer[25] = {};
+
+		  bool switch_flag = false;
+
 		  float accel[3];
 		  float gyro[3];
 		  float mag[3];
