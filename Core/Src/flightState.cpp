@@ -14,8 +14,8 @@ void flightState(flightdata::FlightData* data){
 		printf("flight state \r\n");
 		HAL_Delay(1000);
 
-		while(data->current_state != flightdata::state::DISARM_STATE){
-			data->current_state = flightdata::state::DISARM_STATE;
+		while(data->current_state != flightdata::State::DISARM_STATE){
+			data->current_state = flightdata::State::DISARM_STATE;
 			HAL_Delay(50);
 		}
 
