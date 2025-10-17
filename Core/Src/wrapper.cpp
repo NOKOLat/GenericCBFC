@@ -5,8 +5,6 @@
 #include "stdio.h"
 
 //各状態のヘッダファイル
-//各状態では、flightdata::debug をインクリメントして、それを print する。
-//状態遷移は、各関数の中でカウントを行う。
 #include "preArmState.hpp"
 #include "preFlightState.hpp"
 #include "flightState.hpp"
@@ -16,7 +14,7 @@
 //データ管理
 #include "flight_data.hpp"
 
-//タイマー
+//タイマー、ループ管理
 #include "tim.h"
 #include "loopFlagReset.hpp"
 #include "loopFlagSet.hpp"
@@ -24,6 +22,8 @@
 
 void init(){
 
+	loopFlagReset(&flightdata);
+	
 	printf("hello, world \r\n");
 
 	//timer開始
