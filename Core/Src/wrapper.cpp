@@ -16,7 +16,7 @@
 //データ管理
 #include "flight_data.hpp"
 
-//sbus
+//タイマー
 #include "tim.h"
 
 
