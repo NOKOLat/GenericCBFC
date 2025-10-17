@@ -5,8 +5,6 @@
 #include "stdio.h"
 
 //各状態のヘッダファイル
-//各状態では、flightdata::debug をインクリメントして、それを print する。
-//状態遷移は、各関数の中でカウントを行う。
 #include "preArmState.hpp"
 #include "preFlightState.hpp"
 #include "flightState.hpp"
@@ -16,37 +14,66 @@
 //データ管理
 #include "flight_data.hpp"
 
+//タイマー、ループ管理
+#include "tim.h"
+#include "loopFlagReset.hpp"
+#include "loopFlagSet.hpp"
 
 
 void init(){
 
+	loopFlagReset(&flightdata);
+	
 	printf("hello, world \r\n");
+
+	//timer開始
+	HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5, GPIO_PIN_SET);
+	HAL_TIM_Base_Start_IT(&htim6);
+	
 	HAL_Delay(100);
 }
 
 void loop(){
 
-	switch(flightdata.current_state){
 
-		case flightdata::state::PRE_ARM_STATE :
-				preArmState(&flightdata);
-		break;
+	if(flightdata.switch_flag == false){
 
-		case flightdata::state::PRE_FLIGHT_STATE :
-				preFlightState(&flightdata);
-		break;
+		loopFlagSet(&flightdata);
+	
+		switch(flightdata.current_state){
+	
+			case flightdata::State::PRE_ARM_STATE :
+					preArmState(&flightdata);
+			break;
+	
+			case flightdata::State::PRE_FLIGHT_STATE :
+					preFlightState(&flightdata);
+			break;
+	
+			case flightdata::State::FLIGHT_STATE :
+					flightState(&flightdata);
+			break;
+	
+			case flightdata::State::DISARM_STATE :
+					disArmState(&flightdata);
+			break;
+	
+			case flightdata::State::FAILSAFE_STATE:
+					failsafeState(&flightdata);
+			break;
+	
+		}
+	}
+}
 
-		case flightdata::state::FLIGHT_STATE :
-				flightState(&flightdata);
-		break;
+//timer割り込み処理
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 
-		case flightdata::state::DISARM_STATE :
-				disArmState(&flightdata);
-		break;
+	if(htim == &htim6){
 
-		case flightdata::state::FAILSAFE_STATE:
-				failsafeState(&flightdata);
-		break;
+	//タイマーが最大値に達したら、フラグをリセット
+	loopFlagReset(&flightdata);
 
 	}
+
 }
