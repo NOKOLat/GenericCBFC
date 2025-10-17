@@ -18,6 +18,8 @@
 
 //タイマー
 #include "tim.h"
+#include "loopFlagReset.hpp"
+#include "loopFlagSet.hpp"
 
 
 void init(){
