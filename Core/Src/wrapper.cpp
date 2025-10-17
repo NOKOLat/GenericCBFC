@@ -40,23 +40,23 @@ void loop(){
 	
 		switch(flightdata.current_state){
 	
-			case flightdata::state::PRE_ARM_STATE :
+			case flightdata::State::PRE_ARM_STATE :
 					preArmState(&flightdata);
 			break;
 	
-			case flightdata::state::PRE_FLIGHT_STATE :
+			case flightdata::State::PRE_FLIGHT_STATE :
 					preFlightState(&flightdata);
 			break;
 	
-			case flightdata::state::FLIGHT_STATE :
+			case flightdata::State::FLIGHT_STATE :
 					flightState(&flightdata);
 			break;
 	
-			case flightdata::state::DISARM_STATE :
+			case flightdata::State::DISARM_STATE :
 					disArmState(&flightdata);
 			break;
 	
-			case flightdata::state::FAILSAFE_STATE:
+			case flightdata::State::FAILSAFE_STATE:
 					failsafeState(&flightdata);
 			break;
 	
