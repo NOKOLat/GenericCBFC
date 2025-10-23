@@ -22,13 +22,8 @@ void sbus_Decode(flightdata::FlightData* data){
 	data->sbus_channel_data[9]  = (data->receive_buffer[13] >> 3  | data->receive_buffer[14] << 5)  & 0x07FF;
 }
 
-//sbus を読み取った結果の解析（関数名は仮称）
 
-/*
-*やること
-*各状態において、フラグを用いた処理を記述する
-*flight_data に、フラグを追加する
-*/
+//sbus を読み取った結果の解析（関数名は仮称）
 void sbusInterpreter(flightdata::FlightData* data){
 
 	if(data->sbus_channel_data[(uint8_t)flightdata::SbusChannel::arm] > 1000){
@@ -73,6 +68,11 @@ void sbusInterpreter(flightdata::FlightData* data){
 		data->flight_on = false;
 	}
 
-
+	/*
+	*ここに
+	*他のスイッチの判定
+	*sbus通信チェック
+	*のコードを追加
+	*/
 
 }
