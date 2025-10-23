@@ -24,6 +24,7 @@ void sbus_Decode(flightdata::FlightData* data){
 
 
 //sbus を読み取った結果の解析（関数名は仮称）
+//フェイルセーフの処理を追加しよう
 void sbusInterpreter(flightdata::FlightData* data){
 
 	if(data->sbus_channel_data[(uint8_t)flightdata::SbusChannel::arm] > 1000){
