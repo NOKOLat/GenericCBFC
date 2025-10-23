@@ -14,7 +14,7 @@
 
 void sbus_Decode(flightdata::FlightData* data);
 
-
+void sbusInterpreter(flightdata::FlightData* data);
 
 
 #endif /* INC_SBUSDECODE_HPP_ */
