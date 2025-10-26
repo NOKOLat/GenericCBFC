@@ -67,6 +67,4 @@ struct flightdata {
 extern flightdata::FlightData flightdata;
 
 
-void sbus_decode();
-
 #endif /* INC_FLIGHT_DATA_HPP_ */
