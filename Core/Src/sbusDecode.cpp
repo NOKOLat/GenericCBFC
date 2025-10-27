@@ -21,3 +21,59 @@ void sbus_Decode(flightdata::FlightData* data){
 	data->sbus_channel_data[8]  = (data->receive_buffer[12]       | data->receive_buffer[13] << 8)  & 0x07FF;
 	data->sbus_channel_data[9]  = (data->receive_buffer[13] >> 3  | data->receive_buffer[14] << 5)  & 0x07FF;
 }
+
+
+//sbus を読み取った結果の解析（関数名は仮称）
+//フェイルセーフの処理を追加しよう
+void sbusInterpreter(flightdata::FlightData* data){
+
+	if(data->sbus_channel_data[(uint8_t)flightdata::SbusChannel::arm] > 1000){
+
+		/*
+		 * ここに
+		 * armのフラグを
+		 * 立てる処理を
+		 * 記述する
+		 */
+		data->arm_on = true;
+	}
+	else{
+		/*
+		 * ここに
+		 * armのフラグを
+		 * 倒す処理を
+		 * 記述する
+		 */
+		data->arm_on = false;
+	}
+
+
+	if((data->sbus_channel_data[(uint8_t)flightdata::SbusChannel::fly] > 1000)||(data->sbus_channel_data[(uint8_t)flightdata::SbusChannel::throttle] > 0)){
+
+		/*
+		 * ここに
+		 * flightスイッチのフラグを
+		 * 立てる処理を
+		 * 記述する
+		 */
+		data->flight_on = true;
+
+	}
+	else{
+		/*
+		 * ここに
+		 * flightスイッチのフラグを
+		 * 倒す処理を
+		 * 記述する
+		 */
+		data->flight_on = false;
+	}
+
+	/*
+	*ここに
+	*他のスイッチの判定
+	*sbus通信チェック
+	*のコードを追加
+	*/
+
+}

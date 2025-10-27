@@ -33,6 +33,9 @@ struct flightdata {
 		  uint16_t sbus_channel_data[10];
 		  uint8_t receive_buffer[25] = {};
 
+		  bool arm_on = false;
+		  bool flight_on = false;
+
 		  bool switch_flag = false;
 
 		  float accel[3];
@@ -63,7 +66,5 @@ struct flightdata {
 
 extern flightdata::FlightData flightdata;
 
-
-void sbus_decode();
 
 #endif /* INC_FLIGHT_DATA_HPP_ */
