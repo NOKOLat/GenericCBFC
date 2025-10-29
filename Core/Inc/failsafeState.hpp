@@ -12,11 +12,7 @@
 #include "stdio.h"
 #include "flight_data.hpp"
 
-void failsafeState(flightdata::FlightData* data){
-
-	printf("fail safe!");
-
-}
+void failsafeState(flightdata::FlightData* data);
 
 
 #endif /* INC_FAILSAFESTATE_HPP_ */
