@@ -75,5 +75,28 @@ void sbusInterpreter(flightdata::FlightData* data){
 	*sbus通信チェック
 	*のコードを追加
 	*/
+	
+		if(data->sbus_lost_connection == true){
 
+		while(data->current_state != flightdata::State::FAILSAFE_STATE)
+			data->current_state = flightdata::State::FAILSAFE_STATE;
+	}
+
+}
+
+void sbusUpdate(flightdata::FlightData* data){
+
+	data->sbus_lost_count = 0;
+}
+
+void sbusLostDetecter(flightdata::FlightData* data){
+
+	if(data->sbus_lost_count > 400){
+
+		data->sbus_lost_connection = true;
+	}
+	else{
+
+		data->sbus_lost_connection = false;
+	}
 }
