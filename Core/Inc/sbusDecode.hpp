@@ -16,5 +16,8 @@ void sbus_Decode(flightdata::FlightData* data);
 
 void sbusInterpreter(flightdata::FlightData* data);
 
+void sbusUpdate(flightdata::FlightData* data);
+
+void sbusLostDetecter(flightdata::FlightData* data);
 
 #endif /* INC_SBUSDECODE_HPP_ */
