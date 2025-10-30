@@ -78,8 +78,9 @@ void sbusInterpreter(flightdata::FlightData* data){
 	
 		if(data->sbus_lost_connection == true){
 
-		while(data->current_state != flightdata::State::FAILSAFE_STATE)
+		while(data->current_state != flightdata::State::FAILSAFE_STATE){
 			data->current_state = flightdata::State::FAILSAFE_STATE;
+		}
 	}
 
 }
