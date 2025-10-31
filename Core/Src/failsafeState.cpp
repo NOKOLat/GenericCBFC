@@ -8,5 +8,19 @@
 
 void failsafeState(flightdata::FlightData* data){
 
-	printf("fail safe state \r\n");
+	/*
+	 *PWMの停止
+	 *LEDの処理
+	 *を追加する
+	 */
+	
+	while(1){
+		printf("fail safe state \r\n");
+
+		/*
+	 	*PWMの停止
+	 	*PIDの処理
+	 	*を追加する
+	 	*/
+	}
 }
