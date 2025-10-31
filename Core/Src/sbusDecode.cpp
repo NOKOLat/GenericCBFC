@@ -76,13 +76,6 @@ void sbusInterpreter(flightdata::FlightData* data){
 	*のコードを追加
 	*/
 	
-		if(data->sbus_lost_connection == true){
-
-		while(data->current_state != flightdata::State::FAILSAFE_STATE){
-			data->current_state = flightdata::State::FAILSAFE_STATE;
-		}
-	}
-
 }
 
 void sbusUpdate(flightdata::FlightData* data){
@@ -100,4 +93,14 @@ void sbusLostDetecter(flightdata::FlightData* data){
 
 		data->sbus_lost_connection = false;
 	}
+
+	
+	if(data->sbus_lost_connection == true){
+
+	while(data->current_state != flightdata::State::FAILSAFE_STATE){
+		
+			data->current_state = flightdata::State::FAILSAFE_STATE;
+		}
+	}
+
 }
