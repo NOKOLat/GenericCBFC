@@ -44,6 +44,12 @@ void loop(){
 	if(flightdata.switch_flag == false){
 
 		loopFlagSet(&flightdata);
+
+		//sbus 通信切断を検知するカウンター
+		flightdata.sbus_lost_count++;
+
+		//通信ロスト判定を行う
+		sbusLostDetecter(&flightdata);//通信ロスト判定を行う
 	
 		switch(flightdata.current_state){
 	
@@ -85,10 +91,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 
 //uart割り込み, sbus_Decode() 呼び出し
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
-
+	
     //データがSBUSの形式であるか確認
 	if(flightdata.receive_buffer[0] == 0x0F && flightdata.receive_buffer[24] == 0x00){
 
+		sbusUpdate(&flightdata);//sbus_lost_count を 0 にする
 		sbus_Decode(&flightdata);//SBUSデータの分解
 		sbusInterpreter(&flightdata);//スイッチ判定
     }
