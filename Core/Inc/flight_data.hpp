@@ -35,6 +35,7 @@ struct flightdata {
 
 		  uint32_t sbus_lost_count = 0;
 		  bool sbus_lost_connection = false;
+		  bool sbus_failsafe_bit = false;
 
 		  bool arm_on = false;
 		  bool flight_on = false;
