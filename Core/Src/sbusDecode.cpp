@@ -89,7 +89,7 @@ void sbusLostDetecter(flightdata::FlightData* data){
 	std::bitset<8> bits(data->receive_buffer[23]);
 	
 	//sbus failsafebit の読み取り(failsafebit は, receive_buffer[23] の3番目)
-	if(bits[(uint8_t)flightdata::SbusBit::sbus_failsafe_bit_number]){
+	if(bits[(uint8_t)flightdata::SbusBit::SBUS_FAILSAFE_BIT_NUMBER]){
 		data->sbus_failsafe_bit = true;
 	}
 	else{
