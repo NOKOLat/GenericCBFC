@@ -35,6 +35,7 @@ struct flightdata {
 
 		  uint32_t sbus_lost_count = 0;
 		  bool sbus_lost_connection = false;
+		  bool sbus_failsafe_bit = false;
 
 		  bool arm_on = false;
 		  bool flight_on = false;
@@ -63,6 +64,11 @@ struct flightdata {
 		  fly = 5 - 1,
 		  drop = 7 - 1,
 		  autodrop = 8 - 1,
+	};
+
+	enum class SbusBit : uint8_t {
+
+		  SBUS_FAILSAFE_BIT_NUMBER = 3,
 	};
 
 };

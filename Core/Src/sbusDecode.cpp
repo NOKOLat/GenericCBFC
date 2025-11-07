@@ -7,6 +7,7 @@
 
 #include "sbusDecode.hpp"
 #include "flight_data.hpp"
+#include "bitset"
 
 void sbus_Decode(flightdata::FlightData* data){
 
@@ -85,7 +86,19 @@ void sbusUpdate(flightdata::FlightData* data){
 
 void sbusLostDetecter(flightdata::FlightData* data){
 
-	if(data->sbus_lost_count > 400){
+	std::bitset<8> bits(data->receive_buffer[23]);
+	
+	//sbus failsafebit の読み取り(failsafebit は, receive_buffer[23] の3番目)
+	if(bits[(uint8_t)flightdata::SbusBit::SBUS_FAILSAFE_BIT_NUMBER]){
+		data->sbus_failsafe_bit = true;
+	}
+	else{
+		data->sbus_failsafe_bit = false;
+	}
+
+	
+	//failsafeState に移行するフラグ sbus_lost_connection を立てる判定
+	if((data->sbus_lost_count > 400) || (data->sbus_failsafe_bit == true)){
 
 		data->sbus_lost_connection = true;
 	}
@@ -94,7 +107,7 @@ void sbusLostDetecter(flightdata::FlightData* data){
 		data->sbus_lost_connection = false;
 	}
 
-	
+	//failsafeState へ移行する処理
 	if(data->sbus_lost_connection == true){
 
 	while(data->current_state != flightdata::State::FAILSAFE_STATE){
