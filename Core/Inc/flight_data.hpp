@@ -66,6 +66,11 @@ struct flightdata {
 		  autodrop = 8 - 1,
 	};
 
+	enum class SbusBit : uint8_t {
+
+		  sbus_failsafebit = 3,
+	};
+
 };
 
 extern flightdata::FlightData flightdata;
