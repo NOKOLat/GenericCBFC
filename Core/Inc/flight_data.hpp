@@ -68,7 +68,7 @@ struct flightdata {
 
 	enum class SbusBit : uint8_t {
 
-		  sbus_failsafe_bit_number = 3,
+		  SBUS_FAILSAFE_BIT_NUMBER = 3,
 	};
 
 };
