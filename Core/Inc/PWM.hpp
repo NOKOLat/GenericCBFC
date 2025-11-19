@@ -17,11 +17,24 @@ class PWM {
 
 private:
 
+protected:
+
+    // Servo設定のみ基底が保持
+    ServoTim servo_tim{};
+    ServoChannel servo_channel{};
+    ServoPWM servo_pwm{};
 
 public:
 
 	PWM() = default;
 	virtual ~PWM() = default;
+
+	/*サーボモーターに関する機能*/
+	virtual void InitServo();
+    virtual void CalcServo(SbusChannelData sbus_data, uint16_t adc_value, std::array<uint16_t,2>& servo);
+    virtual void GenerateServo(std::array<uint16_t,2>& servo);
+    virtual void SetServoConfig(const ServoTim& tim, const ServoChannel& channel, const ServoPWM& pwm);
+
 
 	/*動力モーターに関する機能*/
 	virtual bool MotorSettingCheck(uint8_t motor_number) = 0;
