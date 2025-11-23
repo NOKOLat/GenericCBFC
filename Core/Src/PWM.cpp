@@ -12,9 +12,7 @@
 // Servoの開閉判定
 void PWM::CalcServo(flightdata::SbusChannel sbus_data, uint16_t adc_value, std::array<uint16_t, 2>& servo){
 
-	
-
-		
+	/*仮の手動投下装置*/	
 	if((adc_value > 1000) || sbus_data.drop == 2){
 
 		servo[1] = servo_pwm.open;
